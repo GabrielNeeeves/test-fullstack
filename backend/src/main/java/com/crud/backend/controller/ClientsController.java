@@ -24,32 +24,42 @@ public class ClientsController {
         return repo.findAll();
     }
 
+    //BY ID
+    @GetMapping("/{id}")
+    public ClientsModel byId(@PathVariable Long id) throws Exception {
+
+        Optional<ClientsModel> clientOpt = repo.findById(id);
+        if(clientOpt.isPresent()) return clientOpt.get();
+        else throw new Exception();
+
+    }
+
     //POST
     @PostMapping
-    public ResponseEntity post(@RequestBody ClientsDto dto) {
+    public ResponseEntity post(@RequestBody ClientsDto dto) throws Exception {
 
-//        try {
+        boolean validate = dto.email().contains("@");
 
-            var newClient = new ClientsModel(dto);
-            repo.save(newClient);
-            return new ResponseEntity(HttpStatus.CREATED);
+        if(!validate) {
+            throw new Exception();
+        }
 
-//        } catch(Exception e) {
-//            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-
+        var newClient = new ClientsModel(dto);
+        repo.save(newClient);
+        return new ResponseEntity(HttpStatus.CREATED);
     }
 
     //DELETE
     @DeleteMapping("/{id}")
-    public ResponseEntity delete(@PathVariable Long id) {
+    public ResponseEntity delete(@PathVariable Long id) throws Exception {
 
         Optional<ClientsModel> clientOpt = repo.findById(id);
         if(clientOpt.isPresent()) {
             repo.delete(clientOpt.get());
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            throw new Exception();
+            //return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
     }
