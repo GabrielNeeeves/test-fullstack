@@ -1,0 +1,16 @@
+volumes:
+  ponttaTesteDb:
+
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: root
+      POSTGRES_USER: useradmin
+      POSTGRES_DB: ponttaTesteDb
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - ponttaTesteDb:/var/lib/postgresql/data
