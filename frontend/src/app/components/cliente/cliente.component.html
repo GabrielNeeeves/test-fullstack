@@ -1,0 +1,36 @@
+<h3>Buscando dados</h3>
+
+<button (click)="buscarDados()" >Buscar</button>
+
+<ul>
+    @for(cliente of clientes$ | async; track cliente) {
+        <li>ID: {{cliente.id}}</li>
+        <li>EMAIL: {{cliente.email}}</li>
+        <li>SENHA: {{cliente.password}}</li>
+        <button (click)="preencherCampos(cliente)" >Editar</button>
+        <button (click)="excluirDados(cliente.id!)" >Excluir</button>
+        <p></p>
+    }
+</ul>
+
+<h3>Cadastrar Clientes</h3>
+
+<form>
+    <label>ID</label>
+    <input type="text" [(ngModel)]="id" name="id" readonly>
+
+    <label>Email: </label>
+    <input type="text" [(ngModel)]="email" name="email" 
+           required pattern=".+@.+" #emailRef="ngModel"
+           placeholder="Digite o email">
+    <div *ngIf="emailRef.invalid && emailRef.touched" style="color: red;">
+        O email deve conter "&#64;"
+    </div>
+    <label>Senha: </label>
+    <input type="password" [(ngModel)]="password" name="password" required placeholder="Digite a senha">
+
+    <button (click)="buttonClick()" >{{ id ? 'Editar' : 'Cadastrar'}}</button>
+</form>
+
+<p>EMAIL: {{email}}</p>
+<p>SENHA: {{password}}</p>

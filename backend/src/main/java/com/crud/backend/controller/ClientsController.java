@@ -26,7 +26,7 @@ public class ClientsController {
 
     //POST
     @PostMapping
-    public ResponseEntity<String> post(@RequestBody ClientsDto dto) {
+    public ResponseEntity post(@RequestBody ClientsDto dto) {
 
 //        try {
 
@@ -42,12 +42,12 @@ public class ClientsController {
 
     //DELETE
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id) {
+    public ResponseEntity delete(@PathVariable Long id) {
 
         Optional<ClientsModel> clientOpt = repo.findById(id);
         if(clientOpt.isPresent()) {
             repo.delete(clientOpt.get());
-            return new ResponseEntity<>("Usuário deletado", HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -56,7 +56,7 @@ public class ClientsController {
 
     //PUT
     @PutMapping("/{id}")
-    public ResponseEntity<String> put(@PathVariable Long id, @RequestBody ClientsDto dto) {
+    public ResponseEntity put(@PathVariable Long id, @RequestBody ClientsDto dto) {
 
         Optional<ClientsModel> clientOpt = repo.findById(id);
         if(clientOpt.isPresent()) {
@@ -65,7 +65,7 @@ public class ClientsController {
             clientUpdate.setPassword(dto.password());
 
             repo.save(clientUpdate);
-            return new ResponseEntity<>("Usuário atualizado", HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
